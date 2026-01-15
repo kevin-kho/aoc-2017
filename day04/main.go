@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"slices"
 	"strings"
 
 	"github.com/kevin-kho/aoc-utilities/common"
@@ -30,10 +31,36 @@ func IsValidPartOne(passPhrase []string) bool {
 	return true
 }
 
+func IsValidPartTwo(passPhrase []string) bool {
+	seen := make(map[string]bool)
+	for _, p := range passPhrase {
+		b := []byte(p)
+		slices.Sort(b)
+		if seen[string(b)] {
+			return false
+		}
+		seen[string(b)] = true
+
+	}
+
+	return true
+
+}
+
 func SolvePartOne(passPhrases [][]string) int {
 	var count int
 	for _, p := range passPhrases {
 		if IsValidPartOne(p) {
+			count++
+		}
+	}
+	return count
+}
+
+func SolvePartTwo(passPhrases [][]string) int {
+	var count int
+	for _, p := range passPhrases {
+		if IsValidPartTwo(p) {
 			count++
 		}
 	}
@@ -52,5 +79,8 @@ func main() {
 
 	res := SolvePartOne(passPhrases)
 	fmt.Println(res)
+
+	res2 := SolvePartTwo(passPhrases)
+	fmt.Println(res2)
 
 }
