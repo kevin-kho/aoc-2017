@@ -7,7 +7,7 @@ import (
 	"github.com/kevin-kho/aoc-utilities/common"
 )
 
-func SumMatchingDigits(data []byte) int {
+func SumNextMatchingDigits(data []byte) int {
 	var res int
 	for i := 1; i < len(data); i++ {
 		if data[i-1] == data[i] {
@@ -22,8 +22,25 @@ func SumMatchingDigits(data []byte) int {
 	return res
 }
 
+func SumNextHalfwayDigit(data []byte) int {
+	l := len(data)
+	n := l / 2
+	var res int
+	for i := range data {
+		j := (i + n) % len(data)
+		if data[i] == data[j] {
+			res += int(data[i] - '0')
+		}
+	}
+	return res
+}
+
 func SolvePartOne(data []byte) int {
-	return SumMatchingDigits(data)
+	return SumNextMatchingDigits(data)
+}
+
+func SolvePartTwo(data []byte) int {
+	return SumNextHalfwayDigit(data)
 }
 
 func main() {
@@ -37,5 +54,8 @@ func main() {
 
 	res := SolvePartOne(data)
 	fmt.Println(res)
+
+	res2 := SolvePartTwo(data)
+	fmt.Println(res2)
 
 }
