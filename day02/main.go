@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"log"
 	"math"
@@ -55,6 +56,27 @@ func GetMinMax(row []int) MinMax {
 	}
 }
 
+func GetDivisble(row []int) (int, int, error) {
+	for i, a := range row {
+		for j := i + 1; j < len(row); j++ {
+			b := row[j]
+			if a == b {
+				return a, b, nil
+			}
+			if a > b && a%b == 0 {
+				return a, b, nil
+			}
+
+			if a < b && b%a == 0 {
+				return b, a, nil
+			}
+		}
+	}
+
+	return 0, 0, errors.New("no divisible pair")
+
+}
+
 func SolvePartOne(rows [][]int) int {
 
 	var minMaxs []MinMax
@@ -67,6 +89,18 @@ func SolvePartOne(rows [][]int) int {
 	}
 	return res
 
+}
+
+func SolvePartTwo(rows [][]int) (int, error) {
+	var res int
+	for _, row := range rows {
+		a, b, err := GetDivisble(row)
+		if err != nil {
+			return res, err
+		}
+		res += a / b
+	}
+	return res, nil
 }
 
 func main() {
@@ -83,5 +117,11 @@ func main() {
 
 	res := SolvePartOne(rows)
 	fmt.Println(res)
+
+	res2, err := SolvePartTwo(rows)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(res2)
 
 }
