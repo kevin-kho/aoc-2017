@@ -6,14 +6,16 @@ import (
 	"os"
 )
 
-func SolvePartOne(data []byte) int {
+func Solve(data []byte) (int, int) {
 	// while loop through t
 	i := 0
 
 	var braces []byte
 	var collecting bool
+	var garbage []byte
 
 	var score int
+	var totalGarbage int
 	for i < len(data) {
 		char := data[i]
 
@@ -28,6 +30,11 @@ func SolvePartOne(data []byte) int {
 			// close bag, stop collecting
 			if char == '>' {
 				collecting = false
+				totalGarbage += len(garbage)
+				garbage = []byte{}
+			}
+			if collecting {
+				garbage = append(garbage, char)
 			}
 			i++
 			continue
@@ -51,7 +58,7 @@ func SolvePartOne(data []byte) int {
 
 	}
 
-	return score
+	return score, totalGarbage
 }
 
 func main() {
@@ -60,7 +67,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	res := SolvePartOne(data)
-	fmt.Println(res)
+	resOne, resTwo := Solve(data)
+	fmt.Println(resOne, resTwo)
 
 }
