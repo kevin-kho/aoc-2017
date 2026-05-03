@@ -37,14 +37,14 @@ func CreateAdjList(data []byte) (map[int][]int, error) {
 
 		srcInt, err := ConvertStringToInt(src)
 		if err != nil {
-			log.Fatal(err)
+			return res, err
 		}
 
 		var dstInt []int
 		for _, d := range dstsStrArr {
 			dInt, err := ConvertStringToInt(d)
 			if err != nil {
-				log.Fatal(err)
+				return res, err
 			}
 			dstInt = append(dstInt, dInt)
 
