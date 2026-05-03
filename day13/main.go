@@ -18,7 +18,7 @@ type Layer struct {
 	Dir   int
 }
 
-func (l *Layer) Move(x int) {
+func (l Layer) Move(x int) int {
 	for range x {
 		l.Curr += l.Dir
 
@@ -27,6 +27,8 @@ func (l *Layer) Move(x int) {
 		}
 
 	}
+
+	return l.Curr
 
 }
 
@@ -83,8 +85,8 @@ func SolvePartOne(layers []Layer) int {
 	var score int
 
 	for i, l := range layers {
-		l.Move(i)
-		if l.Curr == 0 {
+		pos := l.Move(i)
+		if pos == 0 {
 			score += l.GetScore()
 		}
 
