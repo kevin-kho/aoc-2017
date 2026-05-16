@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -130,6 +131,30 @@ func SolvePartOne(cast Cast, moves []Move) string {
 
 }
 
+func SolvePartTwo(cast Cast, moves []Move) string {
+	// Too slow
+	seen := make(map[string][]string)
+	for range 1_000_000_000 {
+		start := cast.GetOrder()
+		if end, ok := seen[start]; ok {
+			cast.Programs = slices.Clone(end)
+			for i, p := range cast.Programs {
+				cast.IndexOf[p] = i
+			}
+			continue
+		}
+
+		for _, m := range moves {
+			cast.Move(m)
+		}
+
+		seen[start] = slices.Clone(cast.Programs)
+
+	}
+
+	return cast.GetOrder()
+}
+
 func main() {
 
 	// data, err := common.ReadInput("inputExample.txt")
@@ -144,11 +169,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// cast := CreateCast("abcde")
-	cast := CreateCast("abcdefghijklmnop")
+	castPartOne := CreateCast("abcdefghijklmnop")
+	castPartTwo := CreateCast("abcdefghijklmnop")
 
-	res := SolvePartOne(cast, moves)
-
+	res := SolvePartOne(castPartOne, moves)
 	fmt.Println(res)
+
+	res2 := SolvePartTwo(castPartTwo, moves)
+	fmt.Println(res2)
 
 }
