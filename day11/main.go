@@ -18,7 +18,7 @@ func GetDirPos(dir string) Pos {
 	switch dir {
 	case "n":
 		d.X = 0
-		d.Y = 1
+		d.Y = 2
 	case "ne":
 		d.X = 1
 		d.Y = 1
@@ -29,7 +29,7 @@ func GetDirPos(dir string) Pos {
 
 	case "s":
 		d.X = 0
-		d.Y = -1
+		d.Y = -2
 
 	case "sw":
 		d.X = -1
@@ -63,26 +63,11 @@ func SolvePartOne(dirs []Pos) int {
 		curr.Y += d.Y
 	}
 
-	fmt.Println(curr)
-
 	x := common.IntAbs(curr.X)
 	y := common.IntAbs(curr.Y)
 
-	fmt.Println(x, y)
-
-	var steps int
-	sub := min(x, y)
-	steps += sub
-	x -= sub
-	y -= sub
-
-	if x != 0 {
-		steps += x
-	}
-
-	if y != 0 {
-		steps += y
-	}
+	// Move along Y, then X-Y
+	steps := (y-x)/2 + x
 
 	return steps
 
@@ -90,8 +75,8 @@ func SolvePartOne(dirs []Pos) int {
 
 func main() {
 
-	data, err := common.ReadInput("inputExample.txt")
-	// data, err := common.ReadInput("input.txt")
+	// data, err := common.ReadInput("inputExample.txt")
+	data, err := common.ReadInput("input.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
