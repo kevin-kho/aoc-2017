@@ -73,6 +73,25 @@ func SolvePartOne(dirs []Pos) int {
 
 }
 
+func SolvePartTwo(dirs []Pos) int {
+	var curr Pos
+	var maxSteps int
+
+	for _, d := range dirs {
+		curr.X += d.X
+		curr.Y += d.Y
+
+		x := common.IntAbs(curr.X)
+		y := common.IntAbs(curr.Y)
+
+		maxSteps = max(maxSteps, (y-x)/2+x)
+
+	}
+
+	return maxSteps
+
+}
+
 func main() {
 
 	// data, err := common.ReadInput("inputExample.txt")
@@ -86,5 +105,8 @@ func main() {
 
 	res := SolvePartOne(dirs)
 	fmt.Println(res)
+
+	res2 := SolvePartTwo(dirs)
+	fmt.Println(res2)
 
 }
